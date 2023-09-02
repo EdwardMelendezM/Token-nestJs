@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable,UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDpto } from './dto/create-user.dto';
@@ -9,6 +9,8 @@ import * as bcryptjs from 'bcryptjs'
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload';
+import { LoginResponse } from './interfaces/login-response';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -56,10 +58,10 @@ export class AuthService {
 
     const {password:_,...rest} = user.toJSON();
 
-    return {
-      user: rest,
-      token:'ABC-123'
-    }
+    // return {
+    //   user: rest,
+    //   token: this.getJwt({id:user.id})
+    // }
   }
 
   findOne(id: number) {
@@ -75,7 +77,14 @@ export class AuthService {
   }
 
   getJwt(payload: JwtPayload){
-    const token = this.jwtService.signAsync(payload)
+    const token = this.jwtService.sign(payload)
     return token
+  }
+  async register(registerUserDto: RegisterUserDto):Promise<LoginResponse>{
+    const user = await this.create(registerUserDto)
+    return {
+      user:user,
+      token: this.getJwt({id:user.id})
+    }
   }
 }
