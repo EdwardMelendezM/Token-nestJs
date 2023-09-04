@@ -67,6 +67,9 @@ export class AuthService {
   findOne(id: number) {
     return `This action returns a #${id} auth`;
   }
+  findAll() {
+    return this.userModel.find();
+  }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {
     return `This action updates a #${id} auth`;
