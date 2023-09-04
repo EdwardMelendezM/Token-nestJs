@@ -71,6 +71,12 @@ export class AuthService {
     return this.userModel.find();
   }
 
+  async findUserById(id:string){
+    const user = await this.userModel.findById(id)
+    const {password, ...rest} = user.toJSON();
+    return rest
+  }
+
   update(id: number, updateAuthDto: UpdateAuthDto) {
     return `This action updates a #${id} auth`;
   }
