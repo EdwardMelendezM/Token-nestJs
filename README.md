@@ -1,11 +1,22 @@
 # Backend Nest js
 
 
-Descargar
+- Descargar
   - Mongo compas
   - Docker desktop
 
-Crear el contenedor
+- Crear el contenedor
 ```
   docker compose up -d
 ```
+
+- Instalar dependencias
+```
+  npm i
+```
+
+- Correr
+```
+  npm run start:dev
+```
+
